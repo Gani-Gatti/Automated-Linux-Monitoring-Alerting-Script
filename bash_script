@@ -1,0 +1,28 @@
+#!/bin/bash
+
+LOGFILE="system_health.log"
+ALERTFILE="alerts.log"
+
+echo "=========================" >> $LOGFILE
+date >> $LOGFILE
+echo "=========================" >> $LOGFILE
+
+# Memory
+echo "Memory Usage" >> $LOGFILE
+free -h >> $LOGFILE
+
+# Disk
+echo "Disk Usage" >> $LOGFILE
+df -h >> $LOGFILE
+
+# CPU
+echo "CPU Usage" >> $LOGFILE
+top -b -n 1 | head -10 >> $LOGFILE
+
+# Disk threshold check
+usage=$(df / | awk 'NR==2 {print $5}' | sed 's/%//')
+
+if [ $usage -gt 80 ]
+then
+    echo "$(date) ALERT: Disk usage greater then 80%" >> $ALERTFILE
+fi
