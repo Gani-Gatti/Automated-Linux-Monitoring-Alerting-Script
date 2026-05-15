@@ -85,3 +85,11 @@ alerts.log
 Stores alert messages when:
 
 Disk usage exceeds 80%
+
+## Automate using cron tab
+
+Add cron job to run monitor.sh every 5 minutes 
+crontab -e
+*/5 * * * * /home/gani/monitor.sh
+
+If threshold exceeds 80%, then alerts.log file contains the alerts in it.
